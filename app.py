@@ -1,7 +1,38 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, render_template, request,redirect
 import random
+from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import migrate
+from datetime import datetime as dt
+import random
+import os
 
 app = Flask(__name__, template_folder ="siteciencia/templates", static_folder = "siteciencia/static")
+
+
+basedir = os.path.abspath(os.path.dirname(__file__))
+app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///" + os.path.
+join(basedir, "cd.sqlite")
+
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
+db = SQLAlchemy(app)
+migrate = migrate(app, db)
+
+class task(db.Model):
+  id = db.column(db.Integer, primary_key=True)
+  description = db.Column(db.String(200), nullable=False)
+  date_created = db.column(db.DateTime, default=dt.now())
+  def_repr_(self):
+  return f"Task: #{self.id}, description: {self.description}"
+
+class Frase(db.Model):
+  id = db.column(db.Integer, primary_key=True)
+  frase = db.Column(db.String(500), nullable=False)
+  autor = db.Column(db.String(50), nullable=False)
+  def_repr_(self):
+    return f"Task: #{self.id}, autor: {self.autor}"
+    frase: {self.frase}
+  
 
 
 @app.route("/")
